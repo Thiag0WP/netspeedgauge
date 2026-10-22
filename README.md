@@ -66,18 +66,30 @@ Neither backend is bundled with this repository.
 
 ## Installation
 
+One line:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Thiag0WP/netspeedgauge/main/install.sh | sh
+```
+
+Then just run `speed`, or `speeddemo` to see every animation without running
+a real test. Run the same line again to update.
+
+Prefer to read a script before piping it into your shell? Clone the repository
+instead and run the installer from there; it then links your clone, so
+`git pull` updates it:
+
 ```sh
 git clone https://github.com/Thiag0WP/netspeedgauge.git
 cd netspeedgauge
 ./install.sh
 ```
 
-Then just run `speed`, or `speeddemo` to see every animation without running
-a real test.
-
 The installer:
 
 - checks for Python 3.8+;
+- with `curl`, downloads NetSpeedGauge into `~/.local/share/netspeedgauge`
+  (with git if you have it, or as a tarball otherwise);
 - links `netspeedgauge.py` as `~/.local/bin/speed` and `~/.local/bin/speeddemo`
   (it refuses to overwrite files that aren't its own);
 - if no backend is installed, downloads the latest
@@ -86,17 +98,21 @@ The installer:
   Ookla's CLI is never downloaded automatically;
 - tells you what to add to your shell config if `~/.local/bin` isn't in your `PATH`.
 
-Since the command is a link to the cloned folder, `git pull` is all it takes to
-update. Keep the folder where it is.
-
 | Installer option | Description |
 |------------------|-------------|
 | `--name NAME` | Install the commands under another name: `NAME` and `NAMEdemo` (default `speed`). |
 | `--no-backend` | Don't download speedtest-go. |
-| `--uninstall` | Remove both commands (speedtest-go is left in place). |
-| `BIN_DIR=...` | Environment variable: install somewhere other than `~/.local/bin`. |
+| `--uninstall` | Remove both commands, and the downloaded copy for curl installs (speedtest-go is left in place). |
+| `BIN_DIR=...` | Environment variable: install the commands somewhere other than `~/.local/bin`. |
+| `NSG_DIR=...` | Environment variable: where a curl install keeps the program (default `~/.local/share/netspeedgauge`). |
 
-You can also skip the installer and run `./netspeedgauge.py` directly.
+With `curl`, pass options after `sh -s --`, for example to uninstall:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Thiag0WP/netspeedgauge/main/install.sh | sh -s -- --uninstall
+```
+
+You can also skip the installer and run `./netspeedgauge.py` directly from a clone.
 
 ## Usage
 
