@@ -67,7 +67,7 @@ Neither backend is bundled with this repository.
 ## Installation
 
 ```sh
-git clone https://github.com/<your-user>/netspeedgauge.git
+git clone https://github.com/Thiag0WP/netspeedgauge.git
 cd netspeedgauge
 ./install.sh
 ```
