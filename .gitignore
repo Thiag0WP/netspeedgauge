@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+
+# Editors / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Backend binaries are installed by the user, never committed
+# (Ookla's CLI is proprietary and must not be redistributed)
+/speedtest
+/speedtest-go
+speedtest-go/
+*.tgz
+*.tar.gz
+*.zip

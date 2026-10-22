@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""Fake speedtest-go for testing NetSpeedGauge offline.
+
+Prints the same kind of output as the real speedtest-go: header lines,
+live progress lines (with \\r) and a final line per phase.
+
+  ./netspeedgauge.py --bin dev/fake-speedtest-go
+  ./netspeedgauge.py --bin dev/fake-speedtest-go -- --down 2500 --up 900
+"""
+import argparse, random, sys, time
+
+SPIN = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏"
+
+
+def out(s):
+    sys.stdout.write(s)
+    sys.stdout.flush()
+
+
+def phase(name, target, seconds):
+    used, t0, k = 0.0, time.time(), 0
+    while True:
+        el = time.time() - t0
+        if el >= seconds:
+            break
+        ramp = min(1.0, el / (seconds * 0.4))          # climb, then hover around target
+        v = max(0.1, target * ramp * random.uniform(0.92, 1.05))
+        used += v / 8 * 0.1
+        out(f"\r{SPIN[k % len(SPIN)]} {name}: {v:.2f}Mbps (Used: {used:.0f}MB)")
+        k += 1
+        time.sleep(0.1)
+    out(f"\r✓ {name}: {target:.2f}Mbps (Used: {used:.2f}MB)\n")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="Fake speedtest-go")
+    ap.add_argument("--down", type=float, default=241.30, help="final download in Mbps")
+    ap.add_argument("--up", type=float, default=87.50, help="final upload in Mbps")
+    ap.add_argument("--secs", type=float, default=6.0, help="duration of each phase")
+    args, _ = ap.parse_known_args()
+
+    out("\n    speedtest-go v1.7.10 (git-fake) @showwin\n\n")
+    time.sleep(0.4)
+    out("✓ ISP: 203.0.113.42 (Fake Fiber Telecom) [-23.5505, -46.6333]\n")
+    time.sleep(0.6)
+    out("✓ Found 20 Public Servers\n")
+    time.sleep(0.3)
+    out("✓ Test Server: [12345] 4.20km Sao Paulo by Example Networks\n")
+    time.sleep(0.8)
+    out("✓ Latency: 8ms Jitter: 1ms Min: 7ms Max: 10ms\n")
+    time.sleep(0.4)
+    phase("Download", args.down, args.secs)
+    phase("Upload", args.up, args.secs)
+    out("✓ Packet Loss: N/A\n")
+
+
+if __name__ == "__main__":
+    main()
