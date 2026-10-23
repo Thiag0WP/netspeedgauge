@@ -183,7 +183,16 @@ UI without a network connection or a real backend:
 
 ## License
 
-NetSpeedGauge is released under the [MIT License](LICENSE).
+NetSpeedGauge is dual-licensed under either of
+
+- [MIT License](LICENSE-MIT)
+- [Apache License, Version 2.0](LICENSE-APACHE)
+
+at your option.
+
+Unless you explicitly state otherwise, any contribution you intentionally submit
+for inclusion in this project, as defined in the Apache-2.0 license, shall be
+dual-licensed as above, without any additional terms or conditions.
 
 speedtest-go and Ookla's Speedtest CLI are separate projects with their own
 licenses; they are not part of this repository.
